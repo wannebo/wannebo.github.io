@@ -25,8 +25,11 @@
                 var user=userhref.substr(userhref.indexOf("id=")+3);
                 console.log(user);
                 if (topUser(user)){
-                    $(this).css("background-color","yellow");
-                    $(this).parent().parent().parent().css("background-color","yellow");
+                    //$(this).css("background-color","yellow").css("color","black");
+                    //$(this).parent().parent().parent().css("background-color","yellow").css("color","black");
+                    $(this).css("border-color","yellow").css("border-width","1px");
+                    $(this).parent().parent().parent().find('.comment').css("border","1px solid yellow");
+                  }
                 }
             }
             //$(this).parent().css("background-color","red");
