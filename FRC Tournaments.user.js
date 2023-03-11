@@ -70,11 +70,14 @@ function labelTeams(){
         var teamnbr=$(this).text();
         if((teamnbr.length>0 && teamnbr.length<5) && teams[teamnbr]){
             $(this).html(teamnbr+"<br>"+teams[teamnbr].name+""+"<br>("+teams[teamnbr].rank+")");
-            if(teams[teamnbr].rank<11){
+            if(teams[teamnbr].rank<25){
                $(this).parent().css("background-color","yellow");
-               if(teams[teamnbr].rank<4){
-                    $(this).parent().css("background-color","red");
-                    $(this).css("color","white");
+                if(teams[teamnbr].rank<9){
+                    $(this).parent().css("background-color","orange");
+                    if(teams[teamnbr].rank<4){
+                        $(this).parent().css("background-color","red");
+                        $(this).css("color","white");
+                    }
                 }
             }else{
                 $(this).parent().css("background-color","white");
