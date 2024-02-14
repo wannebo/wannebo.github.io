@@ -117,11 +117,14 @@ function start() {
   myJQuery('.pagetop:eq(0)').append(' | <a href="http://www.github.com/dparpyani" style="color: cyan;">Hi there :)</a>');
 
   myJQuery('span.age > a').each(function(index){
+      //$(this).css('font-size','24 pt');
+      //console.log(myJQuery(this).text());
       var age=myJQuery(this).text();
       if(age.includes("hours")){
           var hours=age.split(' ')[0];
           if((0+hours)>12){
               //console.log(myJQuery(this).closest('tr').prev().text());
+              //console.log(myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').text());
               myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').css('color','#888888');
               myJQuery(this).closest('tr').children('td.subtext').children('span').children('a').css('color','#888888');
           }
@@ -129,27 +132,39 @@ function start() {
 
 
   });
-
+  var comments=0;
+  var itemcomments=[];
+  var itemcount=0;
   myJQuery('span.subline > a[href^="item"]').each(function(index){
       var commentsline=myJQuery(this).text();
+      comments=0;
       if(commentsline.includes("comments")){
-          var comments=commentsline.split(/\s|&nbsp;/g)[0];
+          comments=commentsline.split(/\s|&nbsp;/g)[0];
           console.log(comments);
           if((0+comments)<20){
-              console.log(myJQuery(this).closest('tr').prev().text());
               myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').css('font-size','8pt'); ;
           }
           if((0+comments)>50){
-              console.log(myJQuery(this).closest('tr').prev().text());
-              //console.log(myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').text());
               myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').css('font-size','14pt'); ;
           }
           if((0+comments)>100){
-              console.log(myJQuery(this).closest('tr').prev().text());
-              //console.log(myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').text());
               myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').css('font-size','16pt'); ;
           }
       }
+      itemcomments.push(comments);
+      itemcount++;
+  });
+    itemcount=0;
+    var score=0;
+    myJQuery('span.subline span.score').each(function(index){
+      var scoreline=myJQuery(this).text();
+      score=scoreline.split(' ')[0];
+      comments=itemcomments[itemcount];
+      if(comments>0 && score>0 && (score/comments)>2){
+          myJQuery(this).closest('tr').prev().children('td.title').children('span.titleline').children('a').css('color','#aaaa00');
+      }
+
+      itemcount++;
   });
 }
 
