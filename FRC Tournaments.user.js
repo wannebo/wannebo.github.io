@@ -1,13 +1,12 @@
 // ==UserScript==
-// @name         FRC Tournaments
+// @name         Blue Alliance Decoder
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  go 111!
-// @author       You
+// @version      0.2
+// @description  Updates Blue Alliance Results page with team name and current rank, highlighting top 3,8 and 24 teams. (Go 111/112!)
+// @author       Erik Wannebo
 // @match        https://www.thebluealliance.com/event/*
-// @match        https://ftc-results.firstillinoisrobotics.org/*/events/*
 // @icon         https://www.google.com/s2/favicons?domain=thebluealliance.com
-// @require	   http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js
+// @require	     http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js
 // @run-at       document-body
 // @grant        none
 // ==/UserScript==
@@ -31,21 +30,18 @@ function getRanks(){
         rank++;
     });
 }
+function fixColumns(){
 
-function setPreRanks(){
-    var favorites=[649,930,2338,2451];
-    for(var t in favorites){
-       if (t in teams){
-           teams[t].rank=9;
-       }
-    }
-
+    $("#results div.row div.col-sm-6").each(function() {
+        console.log('column');
+        $(this).after($("</div><div class='row'>"));
+    });
 }
 
 function init(){
        getTeams();
-       //setPreRanks();
        getRanks();
+       fixColumns();
        labelTeams();
        setTimeout(reload,(10*60000));
 }
@@ -61,45 +57,35 @@ function hidematches(cutoffrank){
     });
 }
 
+function setColors(elem,bgcolor,fntcolor){
+    $(elem).parent().css("background-color",bgcolor);
+    $(elem).css("color",fntcolor);
+}
 
 function labelTeams(){
-    //starttime = Date.now();
-    var cutoffrank=3;
-    //hidematches(cutoffrank);
     $("a[href*='/team/'").each(function() {
         var teamnbr=$(this).text();
         if((teamnbr.length>0 && teamnbr.length<5) && teams[teamnbr]){
             $(this).html(teamnbr+"<br>"+teams[teamnbr].name+""+"<br>("+teams[teamnbr].rank+")");
             if(teams[teamnbr].rank<25){
-               $(this).parent().css("background-color","yellow");
+               setColors(this,"yellow","black");
                 if(teams[teamnbr].rank<9){
-                    $(this).parent().css("background-color","orange");
+                    setColors(this,"orange","black");
                     if(teams[teamnbr].rank<4){
-                        $(this).parent().css("background-color","red");
-                        $(this).css("color","white");
+                        setColors(this,"red","white");
                     }
                 }
             }else{
-                $(this).parent().css("background-color","white");
+                 setColors(this,"white","black");
             }
-
             if(teamnbr=='111'){
-                $(this).parent().css("background-color","lime");
-
-                $(this).css("color","black");
+                setColors(this,"lime","black");
             }
             if(teamnbr=='112'){
-                $(this).parent().css("background-color","blue");
-
-                $(this).css("color","white");
+               setColors(this,"blue","white");
             }
-            //if(teams[teamnbr].rank<=cutoffrank){
-            //     $(this).parent().parent().css("background-color","purple");
-            //}
         }
     });
-    //console.log("Elapsed: "+(Date.now()-starttime));
-
     setTimeout(labelTeams,20000);
 }
 
@@ -109,12 +95,7 @@ function reload(){
 
 (function() {
     'use strict';
-
-    // Your code here...
     $(document).ready(function(){
-
         setTimeout(init,2000);
-
-
     });
 })();
