@@ -79,7 +79,7 @@ function labelTeams(){
             }else{
                  setColors(this,"white","black");
             }
-o
+
             if(teamnbr=='111'){
                 setColors(this,"lime","black");
             }
