@@ -33,7 +33,7 @@
                 }
             }
             //$(this).parent().css("background-color","red");
-        });
+        );
     }
 
     getUsers();
