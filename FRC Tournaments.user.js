@@ -49,7 +49,7 @@ function init(){
 function hidematches(cutoffrank){
     $("a[href*='/team/'").each(function() {
         var teamnbr=$(this).text();
-        if((teamnbr.length>0 && teamnbr.length<5) && teams[teamnbr]){
+        if((teamnbr.length>0 && teamnbr.length<6) && teams[teamnbr]){
             if(teams[teamnbr].rank>cutoffrank){
                 $(this).parent().parent().css("height","5");
             }
@@ -65,7 +65,7 @@ function setColors(elem,bgcolor,fntcolor){
 function labelTeams(){
     $("a[href*='/team/'").each(function() {
         var teamnbr=$(this).text();
-        if((teamnbr.length>0 && teamnbr.length<5) && teams[teamnbr]){
+        if((teamnbr.length>0 && teamnbr.length<6) && teams[teamnbr]){
             $(this).html(teamnbr+"<br>"+teams[teamnbr].name+""+"<br>("+teams[teamnbr].rank+")");
             if(teams[teamnbr].rank<25){
                setColors(this,"yellow","black");
